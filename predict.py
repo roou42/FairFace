@@ -12,7 +12,7 @@ import dlib
 import os
 import argparse
 
-def rect_to_bb(rect):
+def _to_bb(rect):
 	# take a bounding predicted by dlib and convert it
 	# to the format (x, y, w, h) as we would normally do
 	# with OpenCV
@@ -48,7 +48,7 @@ def detect_face(image_paths,  SAVE_DETECTED_AT, default_max_size=800,size = 300,
             continue
         # Find the 5 face landmarks we need to do the alignment.
         faces = dlib.full_object_detections()
-        for detection in dets:
+        for rect in dets:
             #rect = detection.rect
             faces.append(sp(img, rect))
         images = dlib.get_face_chips(img, faces, size=size, padding = padding)
