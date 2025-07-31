@@ -49,7 +49,7 @@ def detect_face(image_paths,  SAVE_DETECTED_AT, default_max_size=800,size = 300,
         # Find the 5 face landmarks we need to do the alignment.
         faces = dlib.full_object_detections()
         for detection in dets:
-            rect = detection.rect
+            #rect = detection.rect
             faces.append(sp(img, rect))
         images = dlib.get_face_chips(img, faces, size=size, padding = padding)
         for idx, image in enumerate(images):
@@ -207,7 +207,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--csv', dest='input_csv', action='store',
                         help='csv file of image path where col name for image path is "img_path')
-    dlib.DLIB_USE_CUDA = True
+    #dlib.DLIB_USE_CUDA = True
     print("using CUDA?: %s" % dlib.DLIB_USE_CUDA)
     args = parser.parse_args()
     SAVE_DETECTED_AT = "detected_faces"
