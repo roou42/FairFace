@@ -201,7 +201,7 @@ def ensure_dir(directory):
 
 
 
-if __name__ == "__main__":
+'''if __name__ == "__main__":
     #Please create a csv with one column 'img_path', contains the full paths of all images to be analyzed.
     #Also please change working directory to this file.
     parser = argparse.ArgumentParser()
@@ -216,4 +216,23 @@ if __name__ == "__main__":
     detect_face(imgs, SAVE_DETECTED_AT)
     print("detected faces are saved at ", SAVE_DETECTED_AT)
     #Please change test_outputs.csv to actual name of output csv. 
-    predidct_age_gender_race("test_outputs.csv", SAVE_DETECTED_AT)
+    predidct_age_gender_race("test_outputs.csv", SAVE_DETECTED_AT)'''
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--csv', dest='input_csv', action='store',
+                        help='csv file of image path where col name for image path is "img_path"')
+    args = parser.parse_args()
+
+    imgs = pd.read_csv(args.input_csv)['img_path']
+
+    cropped_dir = "cropped_faces"
+    ensure_dir(cropped_dir)
+
+    import shutil
+    for img_path in imgs:
+        shutil.copy(img_path, os.path.join(cropped_dir, os.path.basename(img_path)))
+
+    print("Running classification directly on provided images...")
+    predidct_age_gender_race("test_outputs.csv", cropped_dir)
+
